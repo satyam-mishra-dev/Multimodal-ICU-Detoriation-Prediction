@@ -1,0 +1,9 @@
+- base.batch_size=32
+- base.lr=[0.001]
+- base.weight_decay=0.001
+- trainer.epochs=20
+- trainer.gpus=0
+- trainer.precision=32
+- trainer.metadata=run
+- ts0.pred.model_dim=512
+- ts0.pred.state_dim=8

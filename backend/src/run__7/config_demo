@@ -1,0 +1,50 @@
+defaults:
+  - base: base
+  - data@data0: multimodal_mdsicu
+  - ts@ts0: tsenc
+  - ts/enc@ts0.enc: none
+  - ts/pred@ts0.pred: s4
+  - ts/head@ts0.head: pool
+  - ts/loss@ts0.loss: none
+  - static: realmlp
+  - head: poolconcat
+  - loss: bcef
+  - trainer: trainer
+  - task: multi
+  - metric@metric0: aurocagg
+  - _self_
+
+data0:
+  name: "mdsicu"
+
+loss:
+  ignore_nans: True
+
+base:
+  fs: 100.
+  input_size: 10.0        # 10 seconds = 1000 tokens at 100 Hz (float → seconds)
+  input_channels: 12
+  normalize: false
+  batch_size: 8
+  input_channels_cat: 0
+  input_channels_cont: 1602
+
+trainer:
+  gpus: 0                 # CPU training for portability
+  refresh_rate: 1
+  username: "demo"
+  epochs: 3
+  precision: 32
+  resume: ""
+  eval_only: ""
+  num_workers: 0          # avoid multiprocessing issues
+
+ts0:
+  pred:
+    causal: False
+    state_dim: 4
+    model_dim: 64          # small model for fast training
+    backbone: "s42"
+
+metric0:
+  bootstrap_iterations: 10  # fast evaluation
